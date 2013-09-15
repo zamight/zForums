@@ -12,7 +12,22 @@ class z
      * @var array $hooks
      */
     public $hooks = array();
+    public $vars = array();
 
+    public function __set($index, $value)
+    {
+        $this->vars[$index] = $value;
+    }
+
+    public function __get($index)
+    {
+        return $this->vars[$index];
+    }
+
+    /**
+     * @param string $hook
+     * @param string $function
+     */
     public function AddHook($hook, $function)
     {
         if (!isset($this->hooks[$hook])) {
@@ -22,6 +37,9 @@ class z
         $this->hooks[$hook][] = $function;
     }
 
+    /**
+     * @param string $hook
+     */
     public function RunHook($hook)
     {
         if (isset($this->hooks[$hook])) {
@@ -34,10 +52,5 @@ class z
         }
     }
 
-    public function HelloWorld()
-    {
-        $this->RunHook('zBeforeHelloWorld');
-        print 'hello world';
-        $this->RunHook('zAfterHelloWorld');
-    }
+
 }
